@@ -1,0 +1,9 @@
+# OS/Editor specific
+.DS_Store
+.vscode
+
+# Temp files
+*.swp
+
+# Build files
+build

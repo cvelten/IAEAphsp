@@ -53,7 +53,6 @@
  *
  **********************************************************************************/
 
-
 #ifndef G4IAEAphspReader_h
 #define G4IAEAphspReader_h 1
 
@@ -66,115 +65,106 @@
 #include "globals.hh"
 #include "G4ThreeVector.hh"
 
-
 class G4Event;
 
-
-class G4IAEAphspReader :public G4VPrimaryGenerator
+class G4IAEAphspReader : public G4VPrimaryGenerator
 {
 
   // ========== Constructors and destructors ==========
 
 public:
-
   // 'filename' must include the path if needed, but NOT the extension
 
-  G4IAEAphspReader(char* filename);
+  G4IAEAphspReader(char *filename);
   G4IAEAphspReader(G4String filename);
 
 private:
   G4IAEAphspReader()
-  { G4Exception("Cannot use G4IAEAphspReader void constructor"); }
+  {
+    G4Exception("G4IAEAphspReader::G4IAEAphspReader()", "1", G4ExceptionSeverity::FatalException, "Cannot use G4IAEAphspReader void constructor");
+  }
 
 public:
-
   ~G4IAEAphspReader();
-
 
   // ========== Class Methods ==========
 
 public:
-
-  void GeneratePrimaryVertex(G4Event* evt);   // Mandatory
+  void GeneratePrimaryVertex(G4Event *evt); // Mandatory
 
 private:
-
   void InitializeMembers();
-  void InitializeSource(char* filename);
+  void InitializeSource(char *filename);
   void ReadAndStoreFirstParticle();
   void PrepareThisEvent();
   void ReadThisEvent();
-  void GeneratePrimaryParticles(G4Event* evt);
-  void PerformRotations(G4ThreeVector& mom);
-  void PerformGlobalRotations(G4ThreeVector& mom);
-  void PerformHeadRotations(G4ThreeVector& mom);
+  void GeneratePrimaryParticles(G4Event *evt);
+  void PerformRotations(G4ThreeVector &mom);
+  void PerformGlobalRotations(G4ThreeVector &mom);
+  void PerformHeadRotations(G4ThreeVector &mom);
   void RestartSourceFile();
-
 
   // ========== Set/Get inline methods ==========
 
 public:
-
-  inline void SetTotalParallelRuns(G4int nParallelRuns) {theTotalParallelRuns = nParallelRuns;}
+  inline void SetTotalParallelRuns(G4int nParallelRuns) { theTotalParallelRuns = nParallelRuns; }
   inline void SetParallelRun(G4int parallelRun)
   {
-    if (parallelRun > theTotalParallelRuns && parallelRun < 1) G4Exception("Error in G4IAEAphspReader::SetParallelRun()");
+    if (parallelRun > theTotalParallelRuns && parallelRun < 1)
+      G4Exception("G4IAEAphspReader::SetParallelRun(G4int)", "1", G4ExceptionSeverity::FatalException, "Error in G4IAEAphspReader::SetParallelRun()");
     theParallelRun = parallelRun;
   }
-  inline void SetTimesRecycled(G4int ntimes) {theTimesRecycled = ntimes;}
+  inline void SetTimesRecycled(G4int ntimes) { theTimesRecycled = ntimes; }
 
-  inline void SetGlobalPhspTranslation(const G4ThreeVector & pos) {theGlobalPhspTranslation = pos;}
-  inline void SetRotationOrder(G4int ord) {theRotationOrder = ord;}
-  inline void SetRotationX(G4double alpha) {theAlpha = alpha;}
-  inline void SetRotationY(G4double beta) {theBeta = beta;}
-  inline void SetRotationZ(G4double gamma) {theGamma = gamma;}
-  inline void SetIsocenterPosition(const G4ThreeVector & pos) {theIsocenterPosition = pos;}
-  void SetCollimatorRotationAxis(const G4ThreeVector & axis);
-  void SetGantryRotationAxis(const G4ThreeVector & axis);
-  inline void SetCollimatorAngle(G4double ang) {theCollimatorAngle = ang;}
-  inline void SetGantryAngle(G4double ang) {theGantryAngle = ang;}
+  inline void SetGlobalPhspTranslation(const G4ThreeVector &pos) { theGlobalPhspTranslation = pos; }
+  inline void SetRotationOrder(G4int ord) { theRotationOrder = ord; }
+  inline void SetRotationX(G4double alpha) { theAlpha = alpha; }
+  inline void SetRotationY(G4double beta) { theBeta = beta; }
+  inline void SetRotationZ(G4double gamma) { theGamma = gamma; }
+  inline void SetIsocenterPosition(const G4ThreeVector &pos) { theIsocenterPosition = pos; }
+  void SetCollimatorRotationAxis(const G4ThreeVector &axis);
+  void SetGantryRotationAxis(const G4ThreeVector &axis);
+  inline void SetCollimatorAngle(G4double ang) { theCollimatorAngle = ang; }
+  inline void SetGantryAngle(G4double ang) { theGantryAngle = ang; }
 
-
-  inline G4String GetFileName() const {return theFileName;}
-  inline G4int GetSourceReadId() const {return theSourceReadId;}
-  inline G4long GetOriginalHistories() const {return theOriginalHistories;}
-  inline G4long GetUsedOriginalParticles() const {return theUsedOriginalParticles;}
-  inline G4long GetTotalParticles() const {return theTotalParticles;}
-  inline G4int GetNumberOfExtraFloats() const {return theNumberOfExtraFloats;}
-  inline G4int GetNumberOfExtraInts() const {return theNumberOfExtraInts;}
-  inline std::vector<G4int>* GetExtraFloatsTypes() const {return theExtraFloatsTypes;}
-  inline std::vector<G4int>* GetExtraIntsTypes() const {return theExtraIntsTypes;}
+  inline G4String GetFileName() const { return theFileName; }
+  inline G4int GetSourceReadId() const { return theSourceReadId; }
+  inline G4long GetOriginalHistories() const { return theOriginalHistories; }
+  inline G4long GetUsedOriginalParticles() const { return theUsedOriginalParticles; }
+  inline G4long GetTotalParticles() const { return theTotalParticles; }
+  inline G4int GetNumberOfExtraFloats() const { return theNumberOfExtraFloats; }
+  inline G4int GetNumberOfExtraInts() const { return theNumberOfExtraInts; }
+  inline std::vector<G4int> *GetExtraFloatsTypes() const { return theExtraFloatsTypes; }
+  inline std::vector<G4int> *GetExtraIntsTypes() const { return theExtraIntsTypes; }
   G4long GetTotalParticlesOfType(G4String type) const;
   G4double GetConstantVariable(const G4int index) const;
 
-  inline std::vector<G4int>* GetParticleTypeVector() const {return theParticleTypeVector;}
-  inline std::vector<G4double>* GetEnergyVector() const {return theEnergyVector;}
-  inline std::vector<G4ThreeVector>* GetPositionVector() const {return thePositionVector;}
-  inline std::vector<G4ThreeVector>* GetMomentumVector() const {return theMomentumVector;}
-  inline std::vector<G4double>* GetWeightVector() const {return theWeightVector;}
-  inline std::vector< std::vector<G4double> >* GetExtraFloatsVector() const {return theExtraFloatsVector;}
-  inline std::vector< std::vector<G4long> >* GetExtraIntsVector() const {return theExtraIntsVector;}
+  inline std::vector<G4int> *GetParticleTypeVector() const { return theParticleTypeVector; }
+  inline std::vector<G4double> *GetEnergyVector() const { return theEnergyVector; }
+  inline std::vector<G4ThreeVector> *GetPositionVector() const { return thePositionVector; }
+  inline std::vector<G4ThreeVector> *GetMomentumVector() const { return theMomentumVector; }
+  inline std::vector<G4double> *GetWeightVector() const { return theWeightVector; }
+  inline std::vector<std::vector<G4double>> *GetExtraFloatsVector() const { return theExtraFloatsVector; }
+  inline std::vector<std::vector<G4long>> *GetExtraIntsVector() const { return theExtraIntsVector; }
 
-  inline G4int GetTotalParallelRuns() const {return theTotalParallelRuns;}
-  inline G4int GetParallelRun() const {return theParallelRun;}
-  inline G4int GetTimesRecycled() const {return theTimesRecycled;}
+  inline G4int GetTotalParallelRuns() const { return theTotalParallelRuns; }
+  inline G4int GetParallelRun() const { return theParallelRun; }
+  inline G4int GetTimesRecycled() const { return theTimesRecycled; }
 
-  inline G4ThreeVector GetGlobalPhspTranslation() const {return theGlobalPhspTranslation;}
-  inline G4int GetRotationOrder() const {return theRotationOrder;}
-  inline G4double GetRotationX() const {return theAlpha;}
-  inline G4double GetRotationY() const {return theBeta;}
-  inline G4double GetRotationZ() const {return theGamma;}
-  inline G4ThreeVector GetIsocenterPosition() const {return theIsocenterPosition;}
-  inline G4double GetCollimatorAngle() const {return theCollimatorAngle;}
-  inline G4double GetGantryAngle() const {return theGantryAngle;}
-  inline G4ThreeVector GetCollimatorRotationAxis() const {return theCollimatorRotAxis;}
-  inline G4ThreeVector GetGantryRotationAxis() const {return theGantryRotAxis;}
-
+  inline G4ThreeVector GetGlobalPhspTranslation() const { return theGlobalPhspTranslation; }
+  inline G4int GetRotationOrder() const { return theRotationOrder; }
+  inline G4double GetRotationX() const { return theAlpha; }
+  inline G4double GetRotationY() const { return theBeta; }
+  inline G4double GetRotationZ() const { return theGamma; }
+  inline G4ThreeVector GetIsocenterPosition() const { return theIsocenterPosition; }
+  inline G4double GetCollimatorAngle() const { return theCollimatorAngle; }
+  inline G4double GetGantryAngle() const { return theGantryAngle; }
+  inline G4ThreeVector GetCollimatorRotationAxis() const { return theCollimatorRotAxis; }
+  inline G4ThreeVector GetGantryRotationAxis() const { return theGantryRotAxis; }
 
   // ========== Data members ==========
 
 private:
-
   // ----------------------
   // FILE GLOBAL PROPERTIES
   // ----------------------
@@ -197,21 +187,21 @@ private:
   G4int theNumberOfExtraFloats, theNumberOfExtraInts;
   // Number of extra variables stored for each particle
 
-  std::vector<G4int>* theExtraFloatsTypes; 
-  std::vector<G4int>* theExtraIntsTypes;
+  std::vector<G4int> *theExtraFloatsTypes;
+  std::vector<G4int> *theExtraIntsTypes;
   // Identification to classify the different extra variables
 
   // ---------------------
   // PARTICLE PROPERTIES
   // ---------------------
 
-  std::vector<G4int>* theParticleTypeVector;
-  std::vector<G4double>* theEnergyVector;
-  std::vector<G4ThreeVector>* thePositionVector;
-  std::vector<G4ThreeVector>* theMomentumVector;
-  std::vector<G4double>* theWeightVector;
-  std::vector< std::vector<G4double> >* theExtraFloatsVector;
-  std::vector< std::vector<G4long> >* theExtraIntsVector;
+  std::vector<G4int> *theParticleTypeVector;
+  std::vector<G4double> *theEnergyVector;
+  std::vector<G4ThreeVector> *thePositionVector;
+  std::vector<G4ThreeVector> *theMomentumVector;
+  std::vector<G4double> *theWeightVector;
+  std::vector<std::vector<G4double>> *theExtraFloatsVector;
+  std::vector<std::vector<G4long>> *theExtraIntsVector;
 
   // -------------------
   // COUNTERS AND FLAGS
@@ -262,7 +252,6 @@ private:
   G4ThreeVector theCollimatorRotAxis, theGantryRotAxis;
   // Angles and axis of isocentric rotations in the machine
   // The collimator ALWAYS rotates first.
-
 };
 
 #endif

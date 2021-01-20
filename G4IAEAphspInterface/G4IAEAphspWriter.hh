@@ -53,7 +53,6 @@
  *
  **********************************************************************************/
 
-
 #ifndef G4IAEAphspWriter_hh
 #define G4IAEAphspWriter_hh 1
 
@@ -67,7 +66,6 @@ class G4Event;
 class G4Run;
 class G4Step;
 
-
 class G4IAEAphspWriter
 {
 private:
@@ -78,30 +76,27 @@ public:
   ~G4IAEAphspWriter();
 
 public:
-  static G4IAEAphspWriter * GetInstance();
+  static G4IAEAphspWriter *GetInstance();
 
-  void BeginOfRunAction(const G4Run*);
-  void EndOfRunAction(const G4Run*);
-  void BeginOfEventAction(const G4Event*);
-  void UserSteppingAction(const G4Step*);
+  void BeginOfRunAction(const G4Run *);
+  void EndOfRunAction(const G4Run *);
+  void BeginOfEventAction(const G4Event *);
+  void UserSteppingAction(const G4Step *);
 
 private:
-  void StoreIAEAParticle(const G4Step* aStep, const G4int zStopIdx);
+  void StoreIAEAParticle(const G4Step *aStep, const G4int zStopIdx);
 
 public:
   void SetZStop(G4double zstop);
   void UpdateHeaders();
 
 public: // GET-SET methods
+  void SetFileName(G4String value) { theFileName = value; }
 
-  void SetFileName(G4String value) {theFileName = value;}
-
-  G4String GetFileName() const {return theFileName;}
-  std::vector<G4double>* GetZStopVector() const {return theZStopVector;}
-
+  G4String GetFileName() const { return theFileName; }
+  std::vector<G4double> *GetZStopVector() const { return theZStopVector; }
 
 private: // DATA MEMBERS
-
   // ----------------
   // FILE PROPERTIES
   // ----------------
@@ -109,7 +104,7 @@ private: // DATA MEMBERS
   G4String theFileName;
   // Must include the path but not any of the IAEA extensions.
 
-  std::vector<G4double>* theZStopVector;
+  std::vector<G4double> *theZStopVector;
   // Vector which stores the Zstops. They must be defined in the user code.
 
   static const G4int theAccessWrite = 2;
@@ -119,10 +114,10 @@ private: // DATA MEMBERS
   // COUNTERS AND FLAGS
   // --------------------
 
-  std::vector<G4int>* theIncrNumberVector;
+  std::vector<G4int> *theIncrNumberVector;
   // Book-keeping of the number of event without particles crossing the plane.
 
-  std::vector< std::set<G4int>* >* thePassingTracksVector;
+  std::vector<std::set<G4int> *> *thePassingTracksVector;
   // Each set is meant to store the track ID of every particle
   // crossing one of the planes.
 
@@ -137,7 +132,6 @@ private: // DATA MEMBERS
   G4ThreeVector preR;
   G4ThreeVector postR;
   // Current pre- and post-step points
-
 };
 
 #endif
